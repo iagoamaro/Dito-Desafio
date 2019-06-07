@@ -43,5 +43,7 @@ docker-compose up -d
 
 ## Tecnologia utilizada
 > Docker
+
 > .net core 2.2
+
 > mongoDB
