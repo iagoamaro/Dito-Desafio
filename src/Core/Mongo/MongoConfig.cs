@@ -1,46 +1,20 @@
-using Microsoft.Extensions.Configuration;
-using MongoDB.Bson;
-using MongoDB.Driver;
-using System.Collections.Generic;
-
-namespace dito.Core.Mongo
+namespace src.Core.Mongo
 {
-    public class MongoDatabaseConfiguration
+    public class MongoConfig
     {
-        private readonly IMongoDatabase db;
-        private readonly List<string> collections;
 
-        public MongoDatabaseConfiguration(IConfiguration configuration)
+        public string Database { get; set; }
+        public string Host { get; set; }
+        public int Port { get; set; }
+        public string User { get; set; }
+        public string Password { get; set; }
+        public string ConnectionString
         {
-            var client = new MongoClient(configuration.GetConnectionString("Mongodb"));
-            db = client.GetDatabase("db");
-            collections = db.ListCollectionNames().ToList();
-        }
-
-        public void Configure()
-        {
-            ConfigureCollection(
-                new CreateIndexModel<Models.Data>(Builders<Models.Data>.IndexKeys.Ascending(x => x.Id), new CreateIndexOptions
-                {
-                    Name = "DataId_1",
-                    Unique = true
-                })                
-            );         
-        }
-
-        public void ConfigureCollection<T>(params CreateIndexModel<T>[] indexModels)
-        {
-            var collectionName = typeof(T).Name;
-            if (!collections.Contains(collectionName))
+            get
             {
-                db.CreateCollection(collectionName);
-                collections.Add(collectionName);
-            }
-
-            var collection = db.GetCollection<T>(collectionName);
-            foreach (var index in indexModels)
-            {
-                collection.Indexes.CreateOne(index);
+                if (string.IsNullOrEmpty(User) || string.IsNullOrEmpty(Password))
+                    return $@"mongodb://{Host}:{Port}";
+                return $@"mongodb://{User}:{Password}@{Host}:{Port}";
             }
         }
     }

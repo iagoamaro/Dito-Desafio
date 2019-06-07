@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Iago\\projects\\dito\\src\\dito.csproj": {}
+    "C:\\Projects\\dito\\Dito-Desafio\\src\\dito.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Iago\\projects\\dito\\src\\dito.csproj": {
+    "C:\\Projects\\dito\\Dito-Desafio\\src\\dito.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Iago\\projects\\dito\\src\\dito.csproj",
+        "projectUniqueName": "C:\\Projects\\dito\\Dito-Desafio\\src\\dito.csproj",
         "projectName": "dito",
-        "projectPath": "C:\\Users\\Iago\\projects\\dito\\src\\dito.csproj",
+        "projectPath": "C:\\Projects\\dito\\Dito-Desafio\\src\\dito.csproj",
         "packagesPath": "C:\\Users\\Iago\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Iago\\projects\\dito\\src\\obj\\",
+        "outputPath": "C:\\Projects\\dito\\Dito-Desafio\\src\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
@@ -58,9 +58,13 @@
               "version": "[2.2.0, )",
               "autoReferenced": true
             },
-            "mongocsharpdriver": {
+            "MongoDB.Driver": {
               "target": "Package",
-              "version": "[2.8.1, )"
+              "version": "[2.7.0, )"
+            },
+            "Newtonsoft.Json": {
+              "target": "Package",
+              "version": "[12.0.2, )"
             }
           },
           "imports": [
