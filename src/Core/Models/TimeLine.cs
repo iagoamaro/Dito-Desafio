@@ -7,6 +7,15 @@ namespace src.Core.Models
     {
         public TimeLine()
         {
+            timeline = new List<TimeLineEvent>();
+        }
+        public IList<TimeLineEvent> timeline { get; set; }
+    }
+    public class TimeLineEvent
+    {
+        public TimeLineEvent()
+        {
+
             products = new List<Products>();
         }
         public DateTime timestamp { get; set; }
@@ -17,7 +26,13 @@ namespace src.Core.Models
 
     }
 
-    public class Products{
+    public class Products
+    {
+        public Products(string _name, double _price)
+        {
+            name = _name;
+            price = _price;
+        }
         public string name { get; set; }
         public double price { get; set; }
 

@@ -6,8 +6,6 @@ using src.Core.Repositories;
 
 namespace dito.Controllers
 {
-    [Produces("application/json")]
-    [Route("api/[Controller]")]
     public class EventController : Controller
     {
         private readonly IEventRepositorie _eventRepositorie;
@@ -16,35 +14,32 @@ namespace dito.Controllers
             _eventRepositorie = eventRepositorie;
         }
 
-        [HttpGet]
-        public async Task<JsonResult> AutoComplete(string name)
+        [HttpGet()]
+        public IActionResult Index() => View("Index");
+
+
+        public async Task<JsonResult> Search(string name)
         {
             if (name.Length >= 2)
                 return Json(await _eventRepositorie.Search(name));
             return Json("Necessário ao menos 2 letras para efeturar a busca!");
         }
 
-        [HttpPost]
+        [HttpPost()]
         public async Task<ActionResult> Insert([FromBody]Data data)
         {
             await _eventRepositorie.AddEvent(data);
-            return Ok();
+            return Ok("Dados inseridos com sucesso!");
         }
 
         [HttpPost]
-        public async Task<ActionResult> Insert([FromBody]IList<Data> data)
+        public async Task<ActionResult> InsertList([FromBody]IList<Data> data)
         {
-            if (data.Count > 0)
+            if (data != null)
                 await _eventRepositorie.AddEvent(data);
             return Ok();
         }
 
-        [HttpGet]
-        public async Task<JsonResult> Insert()
-        {
-            
-            return Json("");
-        }
 
     }
 }

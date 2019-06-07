@@ -1,24 +1,26 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Projects\\dito\\Dito-Desafio\\src\\dito.csproj": {}
+    "C:\\Users\\OSAS16\\Desktop\\git\\Dito-Desafio\\src\\dito.csproj": {}
   },
   "projects": {
-    "C:\\Projects\\dito\\Dito-Desafio\\src\\dito.csproj": {
+    "C:\\Users\\OSAS16\\Desktop\\git\\Dito-Desafio\\src\\dito.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Projects\\dito\\Dito-Desafio\\src\\dito.csproj",
+        "projectUniqueName": "C:\\Users\\OSAS16\\Desktop\\git\\Dito-Desafio\\src\\dito.csproj",
         "projectName": "dito",
-        "projectPath": "C:\\Projects\\dito\\Dito-Desafio\\src\\dito.csproj",
-        "packagesPath": "C:\\Users\\Iago\\.nuget\\packages\\",
-        "outputPath": "C:\\Projects\\dito\\Dito-Desafio\\src\\obj\\",
+        "projectPath": "C:\\Users\\OSAS16\\Desktop\\git\\Dito-Desafio\\src\\dito.csproj",
+        "packagesPath": "C:\\Users\\OSAS16\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\OSAS16\\Desktop\\git\\Dito-Desafio\\src\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
+          "C:\\ProgramData\\Xamarin\\NuGet\\",
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
         ],
         "configFilePaths": [
-          "C:\\Users\\Iago\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "C:\\Users\\OSAS16\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
         ],
         "originalTargetFrameworks": [
           "netcoreapp2.2"
@@ -57,6 +59,10 @@
               "target": "Package",
               "version": "[2.2.0, )",
               "autoReferenced": true
+            },
+            "Microsoft.Net.Http": {
+              "target": "Package",
+              "version": "[2.2.29, )"
             },
             "MongoDB.Driver": {
               "target": "Package",

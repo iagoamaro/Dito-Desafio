@@ -1,73 +1,76 @@
 using System.Collections.Generic;
 using System.IO;
-using System.Net;
+using System.Net.Http;
 using System.Text;
 using System;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using src.Core.Models;
+using src.DTO;
+using System.Linq;
 
 namespace src.Core.Services
 {
     public class TimeLineServices : ITimeLineServices
     {
 
-        private TimeLine JsonToObject(string json)
+        private TimeLine JsonToObject(ListTimeLineDto timeLineDto)
         {
-
-            var obj = JsonConvert.DeserializeObject<Dictionary<string, object>>(json);
-            var timeLine = new TimeLine();
-            foreach (var item in obj)
+            var data = new TimeLine();
+            foreach (var time in timeLineDto.events)
             {
-                if (item.Key == nameof(timeLine.timestamp))
-                {
-                    timeLine.timestamp = DateTime.Parse(item.Value.ToString());
-                }
 
-                if (item.Key == nameof(timeLine.revenue))
+                var events = new TimeLineEvent();
+                var productName = "";
+                var productPrice = "";
+                foreach (var item in time.custom_data)
                 {
-                    timeLine.revenue = double.Parse(item.Value.ToString());
-                }
-                if (item.Key == "custom_data")
-                {
-                    var custom = JsonConvert.DeserializeObject<Dictionary<string, object>>(item.Value.ToString());
-                    foreach (var customdata in custom)
+
+                    events.revenue = time.revenue;
+                    events.timestamp = time.timestamp;
+                    if (item.key == "transaction_id")
                     {
-                        var products = new Products();
-                        if (customdata.Key == "product_name")
-                        {
-                            products.name = customdata.Value.ToString();
-                        }
-                        if (customdata.Key == "product_price")
-                        {
-                            products.price = double.Parse(customdata.Value.ToString());
-                        }
-                        if (customdata.Key == "transaction_id")
-                        {
-                            timeLine.transaction_id = customdata.Value.ToString();
-                        }
+                        events.transaction_id = item.value;
                     }
+                    if (item.key == "store_name")
+                    {
+                        events.store_name = item.value;
+                    }
+                    if (item.key == "product_name")
+                    {
+                        productName = item.value;
+                    }
+                    if (item.key == "product_price")
+                    {
+                        productPrice = item.value.ToString();
+
+                    }
+
+                    if (!string.IsNullOrEmpty(productName) && !string.IsNullOrEmpty(productPrice))
+                    {
+                        var product = new Products(productName, double.Parse(productPrice));
+                        events.products.Add(product);
+                    }
+
+
                 }
+                data.timeline.Add(events);
+
             }
-            return timeLine;
+
+            data.timeline = data.timeline.OrderByDescending(x => x.timestamp).ThenBy(t => t.timestamp.TimeOfDay).ToList();
+            return data;
         }
+
 
         public async Task<TimeLine> GetTimeLine()
         {
-            var request = WebRequest.CreateHttp("https://storage.googleapis.com/dito-questions/events.json");
-            request.Method = WebRequestMethods.Http.Get;
-            request.Accept = "application/json";
-            var timeLine = new TimeLine();
-            var json = "";
-            using (var response = request.GetResponse())
-            {
-                var _response = response.GetResponseStream();
-                StreamReader reader = new StreamReader(_response, Encoding.UTF8);
-                json = JsonConvert.SerializeObject(reader.ReadToEnd());
-            }
 
-
-            return await Task.FromResult(JsonToObject(json));
+            var client = new HttpClient();
+            var response = await client.GetStringAsync("https://storage.googleapis.com/dito-questions/events.json");
+            var timeLineDto = JsonConvert.DeserializeObject<ListTimeLineDto>(response);
+            return await Task.FromResult(JsonToObject(timeLineDto));
 
         }
     }

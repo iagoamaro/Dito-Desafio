@@ -22,7 +22,7 @@ namespace src.Core.Repositories
         private IEnumerable<Data> SearchEvent(string name)
         {
 
-            return _db.Data.AsQueryable().Where(x => x.Event.ToLower().Contains(name.ToLower()));
+            return _db.Data.AsQueryable().Where(x => x.eventName.ToLower().Contains(name.ToLower()));
         }
         public async Task<IEnumerable<Data>> Search(string name)
         {

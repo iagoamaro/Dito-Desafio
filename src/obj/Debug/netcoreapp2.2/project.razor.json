@@ -1,5 +1,5 @@
 {
-  "FilePath": "c:\\Projects\\dito\\Dito-Desafio\\src\\dito.csproj",
+  "FilePath": "c:\\Users\\OSAS16\\Desktop\\git\\Dito-Desafio\\src\\dito.csproj",
   "Configuration": {
     "ConfigurationName": "MVC-2.1",
     "LanguageVersion": "2.1",
@@ -2757,5 +2757,11 @@
     "CSharpLanguageVersion": 703
   },
   "RootNamespace": "dito",
-  "Documents": []
+  "Documents": [
+    {
+      "FilePath": "Views\\Event\\Index.cshtml",
+      "TargetPath": "Views\\Event\\Index.cshtml",
+      "FileKind": "mvc"
+    }
+  ]
 }

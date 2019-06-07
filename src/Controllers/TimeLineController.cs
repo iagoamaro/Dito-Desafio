@@ -5,7 +5,7 @@ using src.Core.Services;
 
 namespace src.Controllers
 {
-    [Route("api/[Controller]")]
+   
     public class TimeLineController  : Controller
     {
         private readonly ITimeLineServices _timeLine;

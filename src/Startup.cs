@@ -28,13 +28,17 @@ namespace dito
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-            var config = new ServerConfig();
-            Configuration.Bind(config);
-            services.AddScoped<IDitoContext, DitoContext>();
+           
+            services.AddSingleton<IDitoContext>(x =>
+            {
+                return new DitoContext(Configuration.GetConnectionString("MongoDB"));
+            });
             services.AddSingleton<IEventRepositorie, EventRepositorie>();
             services.AddSingleton<ITimeLineServices, TimeLineServices>();
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services.AddMvc(options =>
+                options.EnableEndpointRouting = false)
+                .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -44,7 +48,15 @@ namespace dito
             {
                 app.UseDeveloperExceptionPage();
             }
-            app.UseMvc();
+
+            app.UseMvc(routes =>
+            {
+                routes.MapRoute(
+                    name: "default",
+                    template: "{controller=Event}/{action=Index}/{id?}",
+                    defaults: "{controller=Event}");
+            });
+
 
         }
     }

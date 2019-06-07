@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <link href="https://fonts.googleapis.com/css?family=Anton" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <title>DESAFIO DITO</title>
+  <style>
+    h1 {
+      padding: 0;
+      margin: 0;
+      font-family: 'Anton', sans-serif;
+      font-size: 4em;
+      color: #5b5b5b;
+      text-align: center;
+    }
+
+    ul {
+      list-style-type: none;
+      padding: 0;
+    }
+
+    li {
+      font-size: 1.1em;
+      padding-left: 15px;
+    }
+
+    li:hover {
+      background-color: #f2f2f2;
+      cursor: default;
+    }
+
+    .logo {
+      width: 250px;
+      margin-left: auto;
+      margin-right: auto;
+      margin-top: 100px;
+    }
+
+    .logo img {
+      display: block;
+      margin: 0 auto;
+    }
+
+    .input-group {
+      width: 500px;
+      margin-left: auto;
+      margin-right: auto;
+      margin-top: 30px;
+    }
+
+    #search-input {
+      width: 100%;
+      height: 40px;
+      padding: 0 15px;
+      border: 0px solid #d3d3d3;
+      font-size: 1em;
+      box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.16), 0 0 0 1px rgba(0, 0, 0, 0.08);
+    }
+
+    #suggestions {
+      width: 530px;
+      border: 1px solid #d3d3d3;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="logo">
+    <h1>DESAFIO DITO</h1>    
+  </div>
+  <div class="input-group">
+    <input type="text" id="search-input" oninput="processInput()">
+    <div id="suggestions">
+      <ul id="suggestions-list"></ul>
+    </div>
+  </div>
+  <script type="text/javascript">
+
+    let xhttp = new XMLHttpRequest();
+    let searchInput = document.getElementById("search-input");
+    let suggestionsDiv = document.getElementById("suggestions");
+    let suggestionsUl = document.getElementById("suggestions-list");
+    let deventsNames = []; // Array contendo o nome dos eventos
+   
+    
+    suggestionsDiv.style.display = "none";
+
+    function processInput() {     
+      if (searchInput.value.length >= 2 ) {
+        xhttp.open("GET", 'Event/Search?name=' + searchInput.value, true);
+        xhttp.send();
+      }    
+      else {
+        //currentTwoLetters = "";
+        suggestionsDiv.style.display = "none";
+      }
+    }
+
+    xhttp.onreadystatechange = function () {
+      if (this.readyState == 4 && this.status == 200) {
+        deventsNames = [];
+        currentTwoLetters = searchInput.value.substring(0, 2);
+        deventsNames = JSON.parse(this.responseText);
+
+        if (deventsNames.length != 0) {
+          clearLis();
+
+          makeList(deventsNames);
+          suggestionsDiv.style.display = "";
+        }
+
+      }
+      else {
+        suggestionsDiv.style.display = "none";
+      }
+    };
+
+    /* Remove todos os itens de uma lista */
+    function clearLis() {
+      while (suggestionsUl.firstChild) {
+        suggestionsUl.removeChild(suggestionsUl.firstChild);
+      }
+    }
+
+    function makeList(items) {
+      items.forEach(function (i) {
+        let str1 = searchInput.value.toLowerCase();
+        let str2 = i.eventName.substring(searchInput.value.length);
+        let strong = document.createElement("strong");
+        strong.appendChild(document.createTextNode(str2));
+        let li = document.createElement("li");
+        li.appendChild(document.createTextNode(str1));
+        li.appendChild(strong);
+        suggestionsUl.appendChild(li);
+      });
+    }
+  </script>
+</body>
+
+</html>

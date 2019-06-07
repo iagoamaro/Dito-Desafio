@@ -1,14 +1,17 @@
-FROM microsoft/dotnet:sdk AS build-env
-WORKDIR /src
 
-# Copy everything and build
+FROM microsoft/dotnet:2.2-sdk AS build-env
+WORKDIR /app
+
+# Copiar csproj e restaurar dependencias
+COPY *.csproj ./
+RUN dotnet restore
+
+# Build da aplicacao
 COPY . ./
+RUN dotnet publish -c Release -o out
 
-RUN dotnet restore "./dito.csproj"
-RUN dotnet publish "dito.csproj" -c Release -o out
-
-
-FROM microsoft/dotnet:aspnetcore-runtime
-WORKDIR /src
-COPY --from=build-env /src/out .
+# Build da imagem
+FROM microsoft/dotnet:2.2-aspnetcore-runtime
+WORKDIR /app
+COPY --from=build-env /app/out .
 ENTRYPOINT ["dotnet", "dito.dll"]

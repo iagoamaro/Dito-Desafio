@@ -6,10 +6,10 @@ namespace src.Core.Mongo
     public class DitoContext : IDitoContext
     {
         private readonly IMongoDatabase _db;
-        public DitoContext(MongoConfig mongoConfiig)
+        public DitoContext(string mongoSrv)
         {
-            var client = new MongoClient(mongoConfiig.ConnectionString);
-            _db = client.GetDatabase(mongoConfiig.Database);
+            var client = new MongoClient(mongoSrv);
+            _db = client.GetDatabase("Dito");
         }
         public IMongoCollection<Data> Data => _db.GetCollection<Data>("Data");
     }
