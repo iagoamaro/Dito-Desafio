@@ -5,10 +5,9 @@
 > Iniciando o projeto com `docker-compose`
 ```
 docker-compose up -d
-```GET localhost:5000/TimeLine
+```
 
-```> `API`
-
+> `API`
   - Endpoint para persistir os `eventos`
     ```
       POST localhost:5000/Event/Insert
