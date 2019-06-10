@@ -18,10 +18,10 @@ namespace dito.Controllers
         public IActionResult Index() => View("Index");
 
 
-        public async Task<JsonResult> Search(string name)
+        public async Task<JsonResult> Search(string search)
         {
             if (name.Length >= 2)
-                return Json(await _eventRepositorie.Search(name));
+                return Json(await _eventRepositorie.Search(search));
             return Json("Necessário ao menos 2 letras para efeturar a busca!");
         }
 
